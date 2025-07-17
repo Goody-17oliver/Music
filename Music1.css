@@ -455,5 +455,6 @@ img{
 
     .lyrics-section {
         max-height: 500px; /* Further increased max-height for very small screens */
+        min-height: 35em;
     }
 }
