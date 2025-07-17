@@ -17,7 +17,7 @@ body{
 }
 .side-one{
     width: 27%;
-    min-height: 35em; /* Use min-height if you want a minimum size when lyrics are hidden */
+    cc/* Use min-height if you want a minimum size when lyrics are hidden */
     border-radius: 20px;
     padding: 20px;
     padding-bottom: 30px; /* Added padding to bottom to allow space for lyrics */
@@ -273,7 +273,7 @@ img{
         width: 95%; /* Percentage for very small screens */
         max-width: 450px; /* Limits the container's max width on phone view */
         padding: 15px;
-        height: auto; /* Allow container height to grow with content */
+        min-height: 15em; /* Allow container height to grow with content */
         margin: 20px auto; /* Ensure centering and spacing */
     }
 
