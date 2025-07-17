@@ -1,4 +1,4 @@
-/* Existing CSS */
+/* Existing CSS (No changes needed here for this request) */
 *{
     margin: 0;
     padding: 0;
@@ -17,15 +17,13 @@ body{
 }
 .side-one{
     width: 27%;
-    /* REMOVED: height: 35em; -- This was limiting content */
-    min-height: 35em; /* Use min-height if you want a minimum size */
+    min-height: 35em; /* Use min-height if you want a minimum size when lyrics are hidden */
     border-radius: 20px;
     padding: 20px;
     padding-bottom: 30px; /* Added padding to bottom to allow space for lyrics */
     text-align: center;
     background: #fdf7f2;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    /* Allow side-one to grow with content */
     display: flex; /* Make it a flex container */
     flex-direction: column; /* Stack children vertically */
     justify-content: flex-start; /* Align content to the start */
@@ -81,8 +79,6 @@ img{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Added flex-grow to push control to bottom when lyrics expand */
-    /* flex-grow: 1; */ /* Consider this if you want controls to stick to bottom above lyrics */
 }
 .controls button {
     background: none;
@@ -92,36 +88,6 @@ img{
     color: black;
     background-color: transparent;
 }
-/* REMOVE .up-arrow and .lyrics-btn existing styles as they are now labels */
-/* The styles for .up-arrow-label and .lyrics-btn-label will replace them */
-
-.text-info{
-    width: 50%;
-    line-height: 3em;
-    margin-top: 10em;
-}
-.main-title{
-    color: #ffff;
-    font-size: 26px;
-    font-weight: bold;
-}
-.curved-arrow{
-    color: #ffff;
-    font-size: 40em;
-    font-weight: bold;
-}
-.sub{
-    background-color: #ffff;
-    width: 27em;
-    padding: 2px;
-}
-.sub-title{
-    margin-left: 1em;
-    color: #111111;
-    font-size: 30px;
-    font-weight: bold;
-}
-
 
 /* NEW/MODIFIED CSS FOR PURE CSS LYRICS TOGGLE */
 
@@ -142,7 +108,6 @@ img{
     padding: 5px 10px;
     border-radius: 5px;
     transition: background-color 0.2s ease, transform 0.2s ease; /* Add transition for arrow rotation */
-    /* Important: Ensure this element is a direct sibling of the checkbox */
     position: relative; /* To control z-index if needed */
     z-index: 2; /* Keep it above lyrics during transition */
 }
@@ -169,12 +134,17 @@ img{
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+/* Hide the "HIDE LYRICS" text by default */
+.lyrics-btn-label .read-less-text {
+    display: none;
+}
+
 /* Initial hidden state for lyrics */
 .lyrics-section {
     max-height: 0; /* Crucial for hidden state and smooth transition */
     overflow-y: auto; /* Enable scrolling for lyrics if they exceed max-height */
     opacity: 0; /* Start with opacity 0 for fade effect */
-    transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out; /* Increased duration for smoother effect */
+    transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out, padding 0.7s ease-in-out, margin-top 0.7s ease-in-out; /* Increased duration for smoother effect */
     box-sizing: border-box; /* Ensures padding is included in max-height calculation */
 
     /* Styling for the visible state (applies regardless of visibility) */
@@ -185,8 +155,7 @@ img{
     font-size: 0.9em;
     line-height: 1.5;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* No margin-top here; it will be added on the checked state */
-    padding: 0; /* No padding when hidden to allow max-height:0 to work fully */
+    padding: 0 15px; /* Initial horizontal padding, vertical padding is 0 */
     margin-top: 0; /* No margin-top when hidden */
     width: 100%; /* Ensure it takes full width of parent */
     flex-shrink: 0; /* Prevent it from shrinking */
@@ -204,9 +173,7 @@ img{
     max-height: 1000px; /* A very large value to ensure all lyrics are visible, adjust if needed */
     opacity: 1; /* Fade in */
     margin-top: 20px; /* Add margin when visible */
-    padding: 15px; /* Apply padding when visible */
-    /* If the lyrics still get cut off, increase max-height further */
-    /* Example: max-height: 200vh; for very long lyrics, but test on different screen sizes */
+    padding: 15px; /* Apply full padding when visible */
 }
 
 /* Change arrow direction when lyrics are shown */
@@ -214,6 +181,14 @@ img{
     transform: rotate(180deg); /* Rotate the arrow */
 }
 
+/* When the checkbox is checked, hide "LYRICS" and show "HIDE LYRICS" */
+.lyrics-toggle-checkbox:checked ~ .lyrics-btn-label .read-more-text {
+    display: none;
+}
+
+.lyrics-toggle-checkbox:checked ~ .lyrics-btn-label .read-less-text {
+    display: inline-block;
+}
 
 /* Responsive styles (already present, but ensure they work with new structure) */
 
@@ -311,8 +286,26 @@ img{
         width: 100%; /* Take full width of its parent (the container) */
         margin: 0 auto;
         padding: 15px;
-        min-height: auto; /* Allow height to adjust freely on mobile */
+        /* MODIFIED: Set a reasonable min-height for when lyrics are hidden */
+        min-height: 350px; /* Adjust this value as needed for a good "normal" size */
         padding-bottom: 20px;
+    }
+
+    /* Adjustments for shorter initial height on mobile */
+    .image img {
+        max-width: 200px; /* Smaller image on mobile */
+        margin-bottom: 15px; /* Reduced margin */
+    }
+
+    .song-title p {
+        margin: 5px 0 15px; /* Reduced bottom margin */
+        font-size: 0.7em;
+    }
+
+    .controls {
+        margin: 15px 0; /* Reduced vertical margin */
+        width: 100%; /* Full width within side-one */
+        margin-bottom: 15px;
     }
 
     .top-side {
@@ -322,18 +315,6 @@ img{
 
     .now-playing {
         font-size: 0.75em;
-    }
-
-    .image img {
-        max-width: 200px; /* Smaller image on mobile */
-    }
-
-    .song-title h2 {
-        font-size: 1.1em;
-    }
-
-    .song-title p {
-        font-size: 0.7em;
     }
 
     .song, .controls {
@@ -346,7 +327,7 @@ img{
     }
 
     .up-arrow-label {
-        margin-top: 20px;
+        margin-top: 15px; /* Reduced margin */
         font-size: 1em;
     }
 
@@ -363,18 +344,21 @@ img{
     }
 
     .main-title {
+        color: #ffff; /* This is the white text for "CUSTOM MUSIC UI DESIGN" */
         font-size: 1.6em;
         line-height: 1.3em;
         margin-bottom: 5px;
     }
 
     .sub {
+        background-color: #ffff; /* This is the white background for "USING ONLY HTML & CSS" */
         width: 90%;
         margin: 15px auto 0;
         padding: 3px 10px;
     }
 
     .sub-title {
+        color: #111111; /* This is the black text for "USING ONLY HTML & CSS" */
         font-size: 1.1em;
     }
 
@@ -396,6 +380,8 @@ img{
 
     .side-one {
         padding: 10px;
+        /* MODIFIED: Set a reasonable min-height for when lyrics are hidden */
+        min-height: 300px; /* Adjust this value as needed for a good "normal" size */
         padding-bottom: 15px;
     }
 
@@ -409,7 +395,7 @@ img{
 
     .image img {
         max-width: 150px;
-        margin-bottom: 15px;
+        margin-bottom: 10px; /* Further reduced margin */
     }
 
     .song-title h2 {
@@ -418,6 +404,7 @@ img{
 
     .song-title p {
         font-size: 0.65em;
+        margin: 3px 0 10px; /* Further reduced margin */
     }
 
     .song {
@@ -436,12 +423,16 @@ img{
         height: 12px;
     }
 
+    .controls {
+        margin: 10px 0; /* Further reduced vertical margin */
+    }
+
     .controls .material-icons {
         font-size: 1.1em;
     }
 
     .up-arrow-label {
-        margin-top: 15px;
+        margin-top: 10px; /* Further reduced margin */
         font-size: 0.9em;
     }
 
